@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Structrene</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the Structural Analysis of Renewable Website</h1>
+    <button onclick="navigateTo('windmills')">Wind Mills</button>
+
+    <div id="content"></div>
+  </div>
+
+  <script>
+    async function fetchData() {
+      // Replace with actual cloud API URL
+      const response = await fetch('https://your-cloud-api.com/data');
+      const data = await response.json();
+      return data;
+    }
+
+    function navigateTo(section) {
+      const content = document.getElementById('content');
+      if (section === 'windmills') {
+        content.innerHTML = `
+          <div class="animation">[Animation Placeholder]</div>
+          <button onclick="showData()">See the Data</button>
+          <div id="data"></div>
+          <button onclick="showFailure()">Failure</button>
+          <div id="failure"></div>
+          <button onclick="showGraph()">Behaviour</button>
+          <canvas id="graphCanvas" width="400" height="200"></canvas>
+          <button onclick="showMaintenance()">Maintenance</button>
+          <div id="maintenance"></div>
+        `;
+      }
+    }
+
+    async function showData() {
+      const data = await fetchData();
+      document.getElementById('data').innerText = JSON.stringify(data);
+    }
+
+    function showFailure() {
+      const data = {/* mock or fetched data */};
+      const failureDate = new Date();
+      failureDate.setDate(failureDate.getDate() + 180); // Example calculation
+      document.getElementById('failure').innerText = 'Expected Failure Date: ' + failureDate.toDateString();
+    }
+
+    function showGraph() {
+      const canvas = document.getElementById('graphCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const strain = [0, 0.1, 0.2, 0.3]; // example
+      const stress = strain.map(e => e * 200); // stress = Young's modulus * strain
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height);
+      strain.forEach((s, i) => {
+        const x = s * canvas.width;
+        const y = canvas.height - stress[i];
+        ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    function showMaintenance() {
+      const nextMaintenance = new Date();
+      nextMaintenance.setDate(nextMaintenance.getDate() + 90); // Example
+      document.getElementById('maintenance').innerText = 'Next Maintenance Date: ' + nextMaintenance.toDateString();
+    }
+  </script>
+</body>
+</html>
