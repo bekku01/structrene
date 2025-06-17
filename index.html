@@ -7,12 +7,17 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
-      color: #111;
+      background: url('https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
       text-align: center;
       overflow-x: hidden;
     }
@@ -24,6 +29,8 @@
       justify-content: center;
       align-items: center;
       padding: 2rem;
+      backdrop-filter: blur(10px);
+      background-color: rgba(0, 0, 0, 0.5);
       animation: fadeIn 1s ease-in;
     }
 
@@ -46,19 +53,19 @@
       padding: 1rem 2rem;
       font-size: 1.2rem;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease, transform 0.3s ease;
       margin: 0.5rem;
     }
 
     button:hover {
       background-color: #005bb5;
-      transform: translateY(-2px);
+      transform: scale(1.05);
     }
 
     .animation img {
-      width: 300px;
+      width: 200px;
       margin: 2rem 0;
-      animation: spin 4s linear infinite;
+      animation: spin 10s linear infinite;
     }
 
     @keyframes spin {
@@ -73,85 +80,9 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="main">
     <h1>Welcome to the Structural Analysis of Renewable Website</h1>
-    <button onclick="navigateTo('windmills')">Wind Mills</button>
-    <div id="content"></div>
+    <button onclick="window.location.href='windmills.html'">Wind Mills</button>
   </div>
-
-  <script>
-    async function fetchData() {
-      // Replace with your actual cloud API endpoint
-      return [
-        { strain: 0, stress: 0 },
-        { strain: 0.1, stress: 20 },
-        { strain: 0.2, stress: 45 },
-        { strain: 0.3, stress: 65 }
-      ];
-    }
-
-    function navigateTo(section) {
-      const content = document.getElementById('content');
-      if (section === 'windmills') {
-        content.innerHTML = `
-          <div class="animation">
-            <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="Windmill" />
-          </div>
-          <button onclick="showData()">See the Data</button>
-          <div id="data"></div>
-          <button onclick="showFailure()">Failure</button>
-          <div id="failure"></div>
-          <button onclick="showGraph()">Behaviour</button>
-          <canvas id="graphCanvas"></canvas>
-          <button onclick="showMaintenance()">Maintenance</button>
-          <div id="maintenance"></div>
-        `;
-      }
-    }
-
-    async function showData() {
-      const data = await fetchData();
-      document.getElementById('data').innerText = 'Live Strain Data: ' + JSON.stringify(data);
-    }
-
-    function showFailure() {
-      const failureDate = new Date();
-      failureDate.setDate(failureDate.getDate() + 180);
-      document.getElementById('failure').innerText = 'Expected Failure Date: ' + failureDate.toDateString();
-    }
-
-    async function showGraph() {
-      const data = await fetchData();
-      const strain = data.map(d => d.strain);
-      const stress = data.map(d => d.stress);
-
-      const ctx = document.getElementById('graphCanvas').getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: strain,
-          datasets: [{
-            label: 'Stress vs Strain',
-            data: stress,
-            fill: false,
-            borderColor: '#0071e3',
-            tension: 0.3
-          }]
-        },
-        options: {
-          scales: {
-            x: { title: { display: true, text: 'Strain' } },
-            y: { title: { display: true, text: 'Stress' } }
-          }
-        }
-      });
-    }
-
-    function showMaintenance() {
-      const nextMaintenance = new Date();
-      nextMaintenance.setDate(nextMaintenance.getDate() + 90);
-      document.getElementById('maintenance').innerText = 'Next Maintenance Date: ' + nextMaintenance.toDateString();
-    }
-  </script>
 </body>
 </html>

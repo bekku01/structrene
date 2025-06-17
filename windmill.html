@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wind Mills - Structrene</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .section {
+      padding: 4rem 2rem;
+      backdrop-filter: blur(10px);
+      background-color: rgba(0,0,0,0.6);
+      margin: 2rem;
+      border-radius: 20px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background-color: #0071e3;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0.8rem 1.6rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+      transform: scale(1.05);
+    }
+
+    canvas {
+      max-width: 80%;
+      margin: auto;
+      margin-top: 2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h2>Wind Mill Structural Data</h2>
+    <button onclick="showData()">See the Data</button>
+    <div id="dataSection" style="display:none">
+      <p>Real-time strain value: <span id="strainValue">Fetching...</span></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Failure Prediction</h2>
+    <button onclick="showFailure()">Failure</button>
+    <div id="failureSection" style="display:none">
+      <p>Expected failure date: <span id="failureDate">Calculating...</span></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Stress vs Strain Behaviour</h2>
+    <button onclick="showGraph()">Behaviour</button>
+    <div id="graphSection" style="display:none">
+      <canvas id="stressStrainChart"></canvas>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Maintenance Scheduler</h2>
+    <button onclick="showMaintenance()">Maintenance</button>
+    <div id="maintenanceSection" style="display:none">
+      <p>Next maintenance should be done on: <span id="maintenanceDate">Calculating...</span></p>
+    </div>
+  </div>
+
+  <script>
+    function showData() {
+      document.getElementById('dataSection').style.display = 'block';
+      document.getElementById('strainValue').innerText = '123.45 με (sample data)'; // Replace with cloud fetch
+    }
+
+    function showFailure() {
+      document.getElementById('failureSection').style.display = 'block';
+      document.getElementById('failureDate').innerText = '2025-11-20 (predicted)'; // Replace with logic
+    }
+
+    function showGraph() {
+      document.getElementById('graphSection').style.display = 'block';
+      const ctx = document.getElementById('stressStrainChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [0, 1, 2, 3, 4, 5],
+          datasets: [{
+            label: 'Stress vs Strain',
+            data: [0, 10, 20, 35, 55, 80],
+            borderColor: '#00ffcc',
+            borderWidth: 2,
+            tension: 0.3,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: 'white' } }
+          },
+          scales: {
+            x: { title: { display: true, text: 'Strain (με)', color: 'white' }, ticks: { color: 'white' } },
+            y: { title: { display: true, text: 'Stress (MPa)', color: 'white' }, ticks: { color: 'white' } }
+          }
+        }
+      });
+    }
+
+    function showMaintenance() {
+      document.getElementById('maintenanceSection').style.display = 'block';
+      document.getElementById('maintenanceDate').innerText = '2025-10-10 (predicted)'; // Replace with logic
+    }
+  </script>
+</body>
+</html>
